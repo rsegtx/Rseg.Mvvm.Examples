@@ -2,4 +2,4 @@
 
 Rseg.Mvvm.Examples is a set of projects that demonstrate solutions to common problems faced by developers using the MVVM pattern.
 
-[Command Context](Rseg.Mvvm.Examples.CommandContext/readme.md)
+[Command Context](Rseg.Mvvm.Examples.CommandContext/README.md)
