@@ -8,68 +8,72 @@
         <ScrollView>
             <VerticalStackLayout
                 Padding="30,0"
-                Spacing="25">
+                Spacing="10">
                 
                 <Label Text="This example demonstrates a technique for defining a common context for executing command handlers. Most handlers in a MVVM app will have boiler plate code that is common, things like exception handling, setting IsBusy on and off, logging, analytics, and possibly other processing. This code can be tedious to implement and update without a way of sharing the code across command handlers. In this example, BaseViewModel provides two overloads of PerformHandler() that can be used to execute command handling logic within a context that provides common functionality."
                        Margin="0,25,0,0"/>
                 
-                <Label Text="To review this approach, search the code for “/// Waypoint” and navigate to each waypoint and review the comments code."/>
+                <Label Text="To review this approach, search the code for “/// Waypoint” and navigate to each waypoint and review comments and code. Change settings for exception processing and “CanExecute” to view different behaviors; monitor Debug Output for results of command executions."/>
 
-                <StackLayout RadioButtonGroup.GroupName="exceptions"
-                             RadioButtonGroup.SelectedValue="{Binding ExceptionOption}">
-                    <Label Text="Exception processing?" />
-                    <RadioButton Content="No exception" Value="{x:Static local:ExceptionProcessing.NoException}"/>
-                    <RadioButton Content="Throw Exception" Value="{x:Static local:ExceptionProcessing.ThrowException}" />
-                    <RadioButton Content="Throw CustomException" Value="{x:Static local:ExceptionProcessing.ThrowCustomException}"/>
-                </StackLayout>
-                
-                <HorizontalStackLayout Spacing="8">
-                    <Label Text="CanExecute"
-                           VerticalOptions="Center"/>
-                    <CheckBox IsChecked="{Binding CanExecute}"/>
-                </HorizontalStackLayout>
+                <Grid ColumnDefinitions="*,*"
+                      ColumnSpacing="8"
+                      Margin="0,10,0,10">
+                    <StackLayout RadioButtonGroup.GroupName="exceptions"
+                                 RadioButtonGroup.SelectedValue="{Binding ExceptionOption}">
+                        <Label Text="Exception processing?" Margin="0,0,0,8"/>
+                        <RadioButton Content="No exception" Value="{x:Static local:ExceptionProcessing.NoException}"/>
+                        <RadioButton Content="Throw Exception" Value="{x:Static local:ExceptionProcessing.ThrowException}" />
+                        <RadioButton Content="Throw CustomException" Value="{x:Static local:ExceptionProcessing.ThrowCustomException}"/>
+                    </StackLayout>
+                    
+                    <HorizontalStackLayout Spacing="4" Grid.Column="1">
+                        <Label Text="CanExecute"
+                               VerticalOptions="Center"/>
+                        <CheckBox IsChecked="{Binding CanExecute}"/>
+                    </HorizontalStackLayout>
+                </Grid>
                 
                 <Grid ColumnDefinitions="*,*,*"
                       ColumnSpacing="10"
                       RowDefinitions="Auto,Auto,Auto"
                       RowSpacing="10">
                     <Button
-                        Text="Action 1" 
+                        Text="Action1" 
                         Command="{Binding Action1Command}"
                         HorizontalOptions="Fill"
                         Grid.Column="0"
                         Grid.Row="0"/>
                     
                     <Button
-                        Text="Action 2" 
+                        Text="Action2" 
                         Command="{Binding Action2Command}"
                         HorizontalOptions="Fill"
                         Grid.Column="1"
                         Grid.Row="0"/>
                     
                     <Button
-                        Text="Action 3" 
+                        Text="Action3" 
                         Command="{Binding Action3Command}"
                         HorizontalOptions="Fill"
                         Grid.Column="2"
                         Grid.Row="0"/>
                     
                     <Button
-                        Text="Task 1" 
+                        Text="Task1" 
                         Command="{Binding Task1Command}"
                         HorizontalOptions="Fill"
                         Grid.Column="0"
                         Grid.Row="1"/>
                     
                     <Button
-                        Text="Task 2" 
+                        Text="Task2" 
                         Command="{Binding Task2Command}"
                         HorizontalOptions="Fill"
                         Grid.Column="1"
                         Grid.Row="1"/>
                     
                     <Button
-                        Text="Task 3" 
+                        Text="Task3" 
                         Command="{Binding Task3Command}"
                         HorizontalOptions="Fill"
                         Grid.Column="2"
@@ -81,14 +85,14 @@
                 <StackLayout BindableLayout.ItemsSource="{Binding Items}">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
-                            <Grid ColumnDefinitions="6*,2*,2*,2*"
+                            <Grid ColumnDefinitions="{OnIdiom Phone='2*,2*,2*,2*', Default='6*,2*,2*,2*'}"
                                   ColumnSpacing="4"
                                   RowDefinitions="Auto,Auto,Auto"
                                   RowSpacing="4"
-                                  Margin="0,4,0,0">
+                                  Padding="0,10,0,10">
                                 
                                 <Label Text="{Binding .}"
-                                       FontSize="20"
+                                       FontSize="{OnIdiom Phone='14', Default='20'}"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"
                                        Grid.Column="0"
@@ -96,7 +100,7 @@
                                        Grid.RowSpan="2"/>
                                        
                                 <Button
-                                    Text="Action 11" 
+                                    Text="{OnIdiom Phone='A11', Default='Action11'}" 
                                     Command="{Binding Action11Command, Source={RelativeSource AncestorType={x:Type local:MainViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="Fill"
@@ -104,7 +108,7 @@
                                     Grid.Row="0"/>
                     
                                 <Button
-                                    Text="Action 12" 
+                                    Text="{OnIdiom Phone='A12', Default='Action12'}"
                                     Command="{Binding Action12Command, Source={RelativeSource AncestorType={x:Type local:MainViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="Fill"
@@ -112,7 +116,7 @@
                                     Grid.Row="0"/>
                     
                                 <Button
-                                    Text="Action 13" 
+                                    Text="{OnIdiom Phone='A13', Default='Action13'}"
                                     Command="{Binding Action13Command, Source={RelativeSource AncestorType={x:Type local:MainViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="Fill"
@@ -120,7 +124,7 @@
                                     Grid.Row="0"/>
                                 
                                 <Button
-                                    Text="Task 11" 
+                                    Text="{OnIdiom Phone='T11', Default='Task11'}"
                                     Command="{Binding Task11Command, Source={RelativeSource AncestorType={x:Type local:MainViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="Fill"
@@ -128,7 +132,7 @@
                                     Grid.Row="1"/>
                     
                                 <Button
-                                    Text="Task 12" 
+                                    Text="{OnIdiom Phone='T12', Default='Task12'}" 
                                     Command="{Binding Task12Command, Source={RelativeSource AncestorType={x:Type local:MainViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="Fill"
@@ -136,7 +140,7 @@
                                     Grid.Row="1"/>
                     
                                 <Button
-                                    Text="Task 13" 
+                                    Text="{OnIdiom Phone='T13', Default='Task13'}"
                                     Command="{Binding Task13Command, Source={RelativeSource AncestorType={x:Type local:MainViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="Fill"
@@ -146,56 +150,26 @@
                                 <BoxView Color="Gray" HeightRequest="1"
                                          Grid.Column="0"
                                          Grid.ColumnSpan="4"
-                                         Grid.Row="2"/>
+                                         Grid.Row="2"
+                                         Margin="0,10,0,0"/>
                             </Grid>
-                            <!--<SwipeView>
-                                <SwipeView.LeftItems>
-                                    <SwipeItems>
-                                        <SwipeItem Text="A11"
-                                                   BackgroundColor="LightPink"
-                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainViewModel}}, Path=Action11Command}"
-                                                   CommandParameter="{Binding .}" />
-                                        <SwipeItem Text="A12"
-                                                   BackgroundColor="Red"
-                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainViewModel}}, Path=Action12Command}"
-                                                   CommandParameter="{Binding .}" />
-                                        <SwipeItem Text="A13"
-                                                   BackgroundColor="DarkRed"
-                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainViewModel}}, Path=Action13Command}"
-                                                   CommandParameter="{Binding .}" />
-                                    </SwipeItems>
-                                </SwipeView.LeftItems>
-                                <SwipeView.RightItems>
-                                    <SwipeItems>
-                                        <SwipeItem Text="T11"
-                                                   BackgroundColor="LightBlue"
-                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainViewModel}}, Path=Task11Command}"
-                                                   CommandParameter="{Binding .}" />
-                                        <SwipeItem Text="T12"
-                                                   BackgroundColor="Blue"
-                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainViewModel}}, Path=Task12Command}"
-                                                   CommandParameter="{Binding .}" />
-                                        <SwipeItem Text="T13"
-                                                   BackgroundColor="DarkBlue"
-                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainViewModel}}, Path=Task13Command}"
-                                                   CommandParameter="{Binding .}" />
-                                    </SwipeItems>
-                                </SwipeView.RightItems>-->                                
-                                <!-- Content -->
-                                <!--<Grid>
-                                    <Label Text="{Binding .}"
-                                           Margin="10"/>
-                                </Grid>
-                            </SwipeView>-->                         
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
             </VerticalStackLayout>
         </ScrollView>
-        <ActivityIndicator IsVisible="{Binding IsBusy}"
-                           IsRunning="{Binding IsBusy}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+        <Border IsVisible="{Binding IsBusy}"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 8"
+                BackgroundColor="Gray"
+                Padding="30"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Color="White"/>
+        </Border>
     </Grid>
 
 </ContentPage>

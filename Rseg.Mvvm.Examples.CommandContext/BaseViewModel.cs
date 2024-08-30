@@ -19,7 +19,7 @@ public class BaseViewModel : ObservableObject
     /// </summary>
     protected virtual async Task HandleException(Exception ex, bool showModalMessage=true)
     {
-        System.Diagnostics.Debug.WriteLine(ex);
+        System.Diagnostics.Debug.WriteLine($"--- {ex.GetType().Name} handled in BaseViewModel.HandleException()");
         if (showModalMessage)
             await DisplayAlert("Error", "An error occured.");
     }    
@@ -28,7 +28,7 @@ public class BaseViewModel : ObservableObject
     /// Waypoint 10
     /// This is a hack which uses MAUI ability to display an alert. Normally, I would not want
     /// to reference any UI framework features in a ViewModel but I used this hack for convenience.
-    /// I hope to develop some followup examples better ways of dealing with UI and navigation
+    /// I hope to develop some followup examples with better ways of dealing with UI and navigation
     /// from view models.
     /// </summary>
     public async Task DisplayAlert(string title, string message)

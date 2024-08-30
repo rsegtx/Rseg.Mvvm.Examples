@@ -105,7 +105,7 @@ public partial class MainViewModel : BaseViewModel
         }
         catch (CustomException)
         {
-            Console.WriteLine("CustomException handled in Action3...");
+            System.Diagnostics.Debug.WriteLine($"--- CustomException handled in Action3...");
         }
     }
     
@@ -119,14 +119,14 @@ public partial class MainViewModel : BaseViewModel
     {
         await PerformHandler(() =>
         {
-            DoSomeActionLogic(item);
+            DoSomeActionLogicT(item);
         });
     }    
     
     public IAsyncRelayCommand<string> Action12Command { get; protected set; }
     private void Action12(string item)
     {
-        DoSomeActionLogic(item);
+        DoSomeActionLogicT(item);
     }    
     
     public IAsyncRelayCommand<string> Action13Command { get; protected set; }
@@ -134,11 +134,11 @@ public partial class MainViewModel : BaseViewModel
     {
         try
         {
-            DoSomeActionLogic(item);
+            DoSomeActionLogicT(item);
         }
         catch (CustomException)
         {
-            Console.WriteLine($"CustomException handled in Action13 for item {item}...");
+            System.Diagnostics.Debug.WriteLine($"--- CustomException handled in Action13 for item {item}...");
         }
     }    
     
@@ -171,7 +171,7 @@ public partial class MainViewModel : BaseViewModel
         }
         catch (CustomException)
         {
-            Console.WriteLine("CustomException handled in Task3...");
+            System.Diagnostics.Debug.WriteLine($"--- CustomException handled in Task3...");
         }
     }
 
@@ -180,14 +180,14 @@ public partial class MainViewModel : BaseViewModel
     {
         await PerformHandler(async () =>
         {
-            await DoSomeTaskLogic(item);
+            await DoSomeTaskLogicT(item);
         });
     }
     
     public IAsyncRelayCommand<string> Task12Command { get; protected set; }
     private async Task Task12(string item)
     {
-        await DoSomeTaskLogic(item);
+        await DoSomeTaskLogicT(item);
     }
     
     public IAsyncRelayCommand<string> Task13Command { get; protected set; }
@@ -195,11 +195,11 @@ public partial class MainViewModel : BaseViewModel
     {
         try
         {
-            await DoSomeTaskLogic(item);
+            await DoSomeTaskLogicT(item);
         }
         catch (CustomException)
         {
-            Console.WriteLine($"CustomException handled in Task3 for item {item}...");
+            System.Diagnostics.Debug.WriteLine($"--- CustomException handled in Task13 for item {item}...");
         }
     }    
     
@@ -217,7 +217,7 @@ public partial class MainViewModel : BaseViewModel
         {
             default:
             case ExceptionProcessing.NoException:
-                Console.WriteLine($"{callerName} completed...");
+                System.Diagnostics.Debug.WriteLine($"--- {callerName} completed...");
                 break;
 
             case ExceptionProcessing.ThrowException:
@@ -228,13 +228,13 @@ public partial class MainViewModel : BaseViewModel
         }
     }    
     
-    private void DoSomeActionLogic(string item, [CallerMemberName]string callerName="Action")
+    private void DoSomeActionLogicT(string item, [CallerMemberName]string callerName="Action")
     {
         switch (ExceptionOption)
         {
             default:
             case ExceptionProcessing.NoException:
-                Console.WriteLine($"{callerName} completed...");
+                System.Diagnostics.Debug.WriteLine($"--- {callerName} completed...");
                 break;
 
             case ExceptionProcessing.ThrowException:
@@ -252,7 +252,7 @@ public partial class MainViewModel : BaseViewModel
         {
             default:
             case ExceptionProcessing.NoException:
-                Console.WriteLine($"{callerName} completed...");
+                System.Diagnostics.Debug.WriteLine($"--- {callerName} completed...");
                 break;
 
             case ExceptionProcessing.ThrowException:
@@ -263,14 +263,14 @@ public partial class MainViewModel : BaseViewModel
         }
     }    
     
-    private async Task DoSomeTaskLogic(string item, [CallerMemberName]string callerName="Task")
+    private async Task DoSomeTaskLogicT(string item, [CallerMemberName]string callerName="Task")
     {
         await Task.Delay(1000);
         switch (ExceptionOption)
         {
             default:
             case ExceptionProcessing.NoException:
-                Console.WriteLine($"{callerName} completed...");
+                System.Diagnostics.Debug.WriteLine($"--- {callerName} completed...");
                 break;
 
             case ExceptionProcessing.ThrowException:
