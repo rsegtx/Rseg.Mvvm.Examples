@@ -125,7 +125,7 @@ public class BaseViewModel : ObservableObject
 
     // MJ_ something to consider: Composition vs Inheritance. The only hard VM dependency here is the IsBusy property
     //     so something that might be more extensible, esp for existing messy code bases that have their own base class implementations..
-    //     is just a CommandHandler.Execute(ICommandOwner owner, Action action) etc... where ICommandOwner just defines IsBusy property
+    //     is just a CommandFactory.Create(ICommandOwner owner, Action action) etc... where ICommandOwner just defines IsBusy property
     private async Task PerformHandler(Func<Task>? asyncAction = null, Action? syncAction = null, bool showAsBusy = true, bool showErrorAsModal = true)
     {
         if (asyncAction == null && syncAction == null)
