@@ -11,7 +11,7 @@ public class BaseViewModel : ObservableObject
         get => _isBusy;
         protected set => SetProperty(ref _isBusy, value);
     }
-    
+
     /// <summary>
     /// Waypoint 9
     /// HandleException() provides a common way of handling exceptions. Its defined as virtual so that
@@ -19,6 +19,9 @@ public class BaseViewModel : ObservableObject
     /// </summary>
     protected virtual async Task HandleException(Exception ex, bool showModalMessage=true)
     {
+        //MJ_ I would also probably abstract this behind a IExceptioHandler
+        //    typically users will want the flexibility to implement their own thing like error logging etc - but also have that
+        //    available outside of just viewmodels
         System.Diagnostics.Debug.WriteLine($"--- {ex.GetType().Name} handled in BaseViewModel.HandleException()");
         if (showModalMessage)
             await DisplayAlert("Error", "An error occured.");
@@ -33,6 +36,8 @@ public class BaseViewModel : ObservableObject
     /// </summary>
     public async Task DisplayAlert(string title, string message)
     {
+        // MJ_ using this is opinionated, and probably not good for unit testing.
+        //     perhaps consider a IUserNotifier interface dependency. Can be mocked, and users can provide their own implementation
         await App.Current.MainPage.DisplayAlert(title, message, "OK");
     }
 
@@ -108,32 +113,41 @@ public class BaseViewModel : ObservableObject
     #region PerformActionInContext methods
     protected virtual async Task PerformHandler(Action action, bool showAsBusy = true, bool showErrorAsModal = true)
     {
-        try
-        {
-            if (showAsBusy)
-                IsBusy = true;
-
-            action.Invoke();
-        }
-        catch (Exception ex)
-        {
-            await HandleException(ex, showErrorAsModal);
-        }
-        finally
-        {
-            if (showAsBusy)
-                IsBusy = false;
-        }
+        //MJ_ the 2 methods could be refactored into a common handler. that way when you edit, it's done in a single place
+        await PerformHandler(null, syncAction: action, showAsBusy, showErrorAsModal);
     }    
     
     protected virtual async Task PerformHandler(Func<Task> action, bool showAsBusy = true, bool showErrorAsModal = true)
     {
+        await PerformHandler(asyncAction: action, null, showAsBusy, showErrorAsModal);
+    }
+
+
+    // MJ_ something to consider: Composition vs Inheritance. The only hard VM dependency here is the IsBusy property
+    //     so something that might be more extensible, esp for existing messy code bases that have their own base class implementations..
+    //     is just a CommandHandler.Execute(ICommandOwner owner, Action action) etc... where ICommandOwner just defines IsBusy property
+    private async Task PerformHandler(Func<Task>? asyncAction = null, Action? syncAction = null, bool showAsBusy = true, bool showErrorAsModal = true)
+    {
+        if (asyncAction == null && syncAction == null)
+            throw new InvalidOperationException("You must send an action to execute!");
+
+        // MJ_ what if IsBusy already true? because happy tapping causing race conditions?
+
+        // MJ_ consider BusyMessage to compliment IsBusy? It's fairly common when UI is in busy state there's progress indicator + potetially a message showing
+
         try
         {
             if (showAsBusy)
                 IsBusy = true;
 
-            await action.Invoke();
+            if (asyncAction != null)
+            {
+                await asyncAction.Invoke();
+            }
+            else
+            {
+                syncAction?.Invoke();
+            }
         }
         catch (Exception ex)
         {
