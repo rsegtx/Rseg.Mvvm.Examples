@@ -1,4 +1,4 @@
-﻿namespace Rseg.Mvvm.Examples.CommandContext;
+﻿namespace Rseg.Mvvm.Examples.CommandContext.Maui;
 
 public partial class AppShell : Shell
 {

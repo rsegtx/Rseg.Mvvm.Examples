@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Rseg.Mvvm.Examples.CommandContext"
-             x:Class="Rseg.Mvvm.Examples.CommandContext.MainPage"
-             x:DataType="local:MainViewModel">
+             xmlns:local="clr-namespace:Rseg.Mvvm.Examples.CommandContext.Maui"
+             xmlns:viewModels="clr-namespace:Rseg.Mvvm.Examples.CommandContext.ViewModels;assembly=Rseg.Mvvm.Examples.CommandContext.ViewModels"
+             x:Class="Rseg.Mvvm.Examples.CommandContext.Maui.MainPage"
+             x:DataType="viewModels:MainViewModel">
     <Grid>
         <ScrollView>
             <VerticalStackLayout
@@ -21,9 +22,9 @@
                     <StackLayout RadioButtonGroup.GroupName="exceptions"
                                  RadioButtonGroup.SelectedValue="{Binding ExceptionOption}">
                         <Label Text="Exception processing?" Margin="0,0,0,8"/>
-                        <RadioButton Content="No exception" Value="{x:Static local:ExceptionProcessing.NoException}"/>
-                        <RadioButton Content="Throw Exception" Value="{x:Static local:ExceptionProcessing.ThrowException}" />
-                        <RadioButton Content="Throw CustomException" Value="{x:Static local:ExceptionProcessing.ThrowCustomException}"/>
+                        <RadioButton Content="No exception" Value="{x:Static viewModels:ExceptionProcessing.NoException}"/>
+                        <RadioButton Content="Throw Exception" Value="{x:Static viewModels:ExceptionProcessing.ThrowException}" />
+                        <RadioButton Content="Throw CustomException" Value="{x:Static viewModels:ExceptionProcessing.ThrowCustomException}"/>
                     </StackLayout>
                     
                     <HorizontalStackLayout Spacing="4" Grid.Column="1">
@@ -101,7 +102,7 @@
                                        
                                 <Button
                                     Text="{OnIdiom Phone='A11', Default='Action11'}" 
-                                    Command="{Binding Action11Command, Source={RelativeSource AncestorType={x:Type local:MainViewModel}}}"
+                                    Command="{Binding Action11Command, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="Fill"
                                     Grid.Column="1"
@@ -109,7 +110,7 @@
                     
                                 <Button
                                     Text="{OnIdiom Phone='A12', Default='Action12'}"
-                                    Command="{Binding Action12Command, Source={RelativeSource AncestorType={x:Type local:MainViewModel}}}"
+                                    Command="{Binding Action12Command, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="Fill"
                                     Grid.Column="2"
@@ -117,7 +118,7 @@
                     
                                 <Button
                                     Text="{OnIdiom Phone='A13', Default='Action13'}"
-                                    Command="{Binding Action13Command, Source={RelativeSource AncestorType={x:Type local:MainViewModel}}}"
+                                    Command="{Binding Action13Command, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="Fill"
                                     Grid.Column="3"
@@ -125,7 +126,7 @@
                                 
                                 <Button
                                     Text="{OnIdiom Phone='T11', Default='Task11'}"
-                                    Command="{Binding Task11Command, Source={RelativeSource AncestorType={x:Type local:MainViewModel}}}"
+                                    Command="{Binding Task11Command, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="Fill"
                                     Grid.Column="1"
@@ -133,7 +134,7 @@
                     
                                 <Button
                                     Text="{OnIdiom Phone='T12', Default='Task12'}" 
-                                    Command="{Binding Task12Command, Source={RelativeSource AncestorType={x:Type local:MainViewModel}}}"
+                                    Command="{Binding Task12Command, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="Fill"
                                     Grid.Column="2"
@@ -141,7 +142,7 @@
                     
                                 <Button
                                     Text="{OnIdiom Phone='T13', Default='Task13'}"
-                                    Command="{Binding Task13Command, Source={RelativeSource AncestorType={x:Type local:MainViewModel}}}"
+                                    Command="{Binding Task13Command, Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="Fill"
                                     Grid.Column="3"

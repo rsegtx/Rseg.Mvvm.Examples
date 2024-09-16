@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace Rseg.Mvvm.Examples.CommandContext;
+namespace Rseg.Mvvm.Examples.CommandContext.ViewModels;
 
 public enum ExceptionProcessing
 {
@@ -43,7 +43,7 @@ public partial class MainViewModel : BaseViewModel
         { "Item 3" }
     };
     
-    public MainViewModel()
+    public MainViewModel(IUiService uiService) : base(uiService)
     {
         Action2Command = SetupCommand(Action2, CanExecuteCommand);
         Action3Command = SetupCommand(Action3, CanExecuteCommand);
@@ -52,7 +52,7 @@ public partial class MainViewModel : BaseViewModel
         Task2Command = SetupCommand(Task2, CanExecuteCommand);
         Task3Command = SetupCommand(Task3, CanExecuteCommand);
         Task12Command = SetupCommand<string>(Task12, CanExecuteCommand1);
-        Task13Command = SetupCommand<string>(Task13, CanExecuteCommand1);
+        Task13Command = SetupCommand<string>(Task13, CanExecuteCommand1);        
     }
     
     private bool CanExecuteCommand()

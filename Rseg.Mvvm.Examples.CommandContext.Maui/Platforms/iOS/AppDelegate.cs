@@ -2,7 +2,7 @@
 using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
 using Microsoft.Maui.Controls.Handlers.Compatibility;
 
-namespace Rseg.Mvvm.Examples.CommandContext;
+namespace Rseg.Mvvm.Examples.CommandContext.Maui;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

@@ -1,4 +1,6 @@
-﻿namespace Rseg.Mvvm.Examples.CommandContext;
+﻿using Rseg.Mvvm.Examples.CommandContext.ViewModels;
+
+namespace Rseg.Mvvm.Examples.CommandContext.Maui;
 
 public partial class MainPage : ContentPage
 {

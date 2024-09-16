@@ -1,15 +1,22 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace Rseg.Mvvm.Examples.CommandContext;
+namespace Rseg.Mvvm.Examples.CommandContext.ViewModels;
 
 public class BaseViewModel : ObservableObject
 {
+    public IUiService UiService { get; private set; }
+    
     private bool _isBusy = false;
     public bool IsBusy
     {
         get => _isBusy;
         protected set => SetProperty(ref _isBusy, value);
+    }
+
+    public BaseViewModel(IUiService uiService)
+    {
+        UiService = uiService;
     }
     
     /// <summary>
@@ -33,7 +40,7 @@ public class BaseViewModel : ObservableObject
     /// </summary>
     public async Task DisplayAlert(string title, string message)
     {
-        await App.Current.MainPage.DisplayAlert(title, message, "OK");
+        await UiService.DisplayAlert(title, message, "OK");
     }
 
     /// <summary>
