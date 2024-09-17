@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Rseg.Mvvm.Examples.CommandContext.ViewModels.Services;
 
 namespace Rseg.Mvvm.Examples.CommandContext.ViewModels;
 
@@ -74,7 +75,7 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand(CanExecute = nameof(CanExecuteCommand))]
     private async Task Action1()
     {
-        await PerformHandler(() =>
+        await PerformInContext(() =>
         {
             DoSomeActionLogic();
         });
@@ -117,7 +118,7 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand(CanExecute = nameof(CanExecuteCommand1))]
     private async Task Action11(string item)
     {
-        await PerformHandler(() =>
+        await PerformInContext(() =>
         {
             DoSomeActionLogicT(item);
         });
@@ -150,7 +151,7 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand(CanExecute = nameof(CanExecuteCommand))]
     private async Task Task1()
     {
-        await PerformHandler(async () =>
+        await PerformInContext(async () =>
         {
             await DoSomeTaskLogic();
         });
@@ -178,7 +179,7 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand(CanExecute = nameof(CanExecuteCommand1))]
     private async Task Task11(string item)
     {
-        await PerformHandler(async () =>
+        await PerformInContext(async () =>
         {
             await DoSomeTaskLogicT(item);
         });

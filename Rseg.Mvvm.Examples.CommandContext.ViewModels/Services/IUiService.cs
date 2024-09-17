@@ -1,4 +1,4 @@
-namespace Rseg.Mvvm.Examples.CommandContext.ViewModels;
+namespace Rseg.Mvvm.Examples.CommandContext.ViewModels.Services;
 
 public interface IUiService
 {

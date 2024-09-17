@@ -1,6 +1,6 @@
-using Rseg.Mvvm.Examples.CommandContext.ViewModels;
+using Rseg.Mvvm.Examples.CommandContext.ViewModels.Services;
 
-namespace Rseg.Mvvm.Examples.CommandContext.Maui;
+namespace Rseg.Mvvm.Examples.CommandContext.Maui.Services;
 
 public class UiService : IUiService
 {

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using Rseg.Mvvm.Examples.CommandContext.Maui.Services;
 using Rseg.Mvvm.Examples.CommandContext.ViewModels;
+using Rseg.Mvvm.Examples.CommandContext.ViewModels.Services;
 
 namespace Rseg.Mvvm.Examples.CommandContext.Maui;
 
