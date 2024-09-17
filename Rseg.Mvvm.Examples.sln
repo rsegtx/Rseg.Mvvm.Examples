@@ -1,6 +1,8 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rseg.Mvvm.Examples.CommandContext", "Rseg.Mvvm.Examples.CommandContext\Rseg.Mvvm.Examples.CommandContext.csproj", "{4E989195-4427-4267-B77C-33A6BC1B9B9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rseg.Mvvm.Examples.CommandContext.Maui", "Rseg.Mvvm.Examples.CommandContext.Maui\Rseg.Mvvm.Examples.CommandContext.Maui.csproj", "{4E989195-4427-4267-B77C-33A6BC1B9B9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rseg.Mvvm.Examples.CommandContext.ViewModels", "Rseg.Mvvm.Examples.CommandContext.ViewModels\Rseg.Mvvm.Examples.CommandContext.ViewModels.csproj", "{0A021B19-1745-4770-B692-254FC226DB50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +14,9 @@ Global
 		{4E989195-4427-4267-B77C-33A6BC1B9B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E989195-4427-4267-B77C-33A6BC1B9B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E989195-4427-4267-B77C-33A6BC1B9B9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A021B19-1745-4770-B692-254FC226DB50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A021B19-1745-4770-B692-254FC226DB50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A021B19-1745-4770-B692-254FC226DB50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A021B19-1745-4770-B692-254FC226DB50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

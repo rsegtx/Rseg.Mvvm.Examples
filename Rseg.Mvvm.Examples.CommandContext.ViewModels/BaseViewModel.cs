@@ -1,15 +1,23 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Rseg.Mvvm.Examples.CommandContext.ViewModels.Services;
 
-namespace Rseg.Mvvm.Examples.CommandContext;
+namespace Rseg.Mvvm.Examples.CommandContext.ViewModels;
 
 public class BaseViewModel : ObservableObject
 {
+    public IUiService UiService { get; private set; }
+    
     private bool _isBusy = false;
     public bool IsBusy
     {
         get => _isBusy;
         protected set => SetProperty(ref _isBusy, value);
+    }
+
+    public BaseViewModel(IUiService uiService)
+    {
+        UiService = uiService;
     }
     
     /// <summary>
@@ -21,24 +29,13 @@ public class BaseViewModel : ObservableObject
     {
         System.Diagnostics.Debug.WriteLine($"--- {ex.GetType().Name} handled in BaseViewModel.HandleException()");
         if (showModalMessage)
-            await DisplayAlert("Error", "An error occured.");
-    }    
-    
-    /// <summary>
-    /// Waypoint 10
-    /// This is a hack which uses MAUI ability to display an alert. Normally, I would not want
-    /// to reference any UI framework features in a ViewModel but I used this hack for convenience.
-    /// I hope to develop some followup examples with better ways of dealing with UI and navigation
-    /// from view models.
-    /// </summary>
-    public async Task DisplayAlert(string title, string message)
-    {
-        await App.Current.MainPage.DisplayAlert(title, message, "OK");
+            await UiService.DisplayAlert("Error", "An error occured.", "OK");
     }
 
     /// <summary>
     /// Waypoint 2
-    /// A SetupCommand() methods are provided to configure commands.
+    /// SetupCommand() methods are provided to configure commands. These methods are generally
+    /// called in a view model constructor.
     /// </summary>
     #region SetupCommand methods
     protected IAsyncRelayCommand SetupCommand(Action action = null, Func<bool> canExecute = null,
@@ -46,7 +43,7 @@ public class BaseViewModel : ObservableObject
     {
         async Task Execute()
         {
-            await PerformHandler(action, showAsBusy, showErrorsAsModal);
+            await PerformInContext(action, showAsBusy, showErrorsAsModal);
         }
 
         return canExecute != null
@@ -59,7 +56,7 @@ public class BaseViewModel : ObservableObject
     {
         async Task Execute(T argument)
         {
-            await PerformHandler(() =>
+            await PerformInContext(() =>
             {
                 action.Invoke(argument);
             }, showAsBusy, showErrorsAsModal);
@@ -75,7 +72,7 @@ public class BaseViewModel : ObservableObject
     {
         async Task Execute()
         {
-            await PerformHandler(action, showAsBusy, showErrorsAsModal);
+            await PerformInContext(action, showAsBusy, showErrorsAsModal);
         }
 
         return canExecute != null
@@ -88,7 +85,7 @@ public class BaseViewModel : ObservableObject
     {
         async Task Execute(T argument)
         {
-            await PerformHandler(async () =>
+            await PerformInContext(async () =>
             {
                 await action.Invoke(argument);
             }, showAsBusy, showErrorsAsModal);
@@ -102,31 +99,24 @@ public class BaseViewModel : ObservableObject
 
     /// <summary>
     /// Waypoint 1
-    /// Two overloads for PerformHandler are defined, one to handle simple actions and the other to handle
-    /// async tasks.
+    /// Two overloads for PerformInContext are defined, one to handle simple actions and the other to handle
+    /// async tasks. Note that the action version simply converts the action to a task and executes in the overload
+    /// that accepts a task. This mean if you want to customize the execution context you only need to override a
+    /// single method.
     /// </summary>
     #region PerformActionInContext methods
-    protected virtual async Task PerformHandler(Action action, bool showAsBusy = true, bool showErrorAsModal = true)
+    protected virtual async Task PerformInContext(Action action, bool showAsBusy = true, bool showErrorAsModal = true)
     {
-        try
+        var task = Task () =>
         {
-            if (showAsBusy)
-                IsBusy = true;
+            action?.Invoke();
+            return Task.CompletedTask;
+        };
 
-            action.Invoke();
-        }
-        catch (Exception ex)
-        {
-            await HandleException(ex, showErrorAsModal);
-        }
-        finally
-        {
-            if (showAsBusy)
-                IsBusy = false;
-        }
-    }    
+        await PerformInContext(task, showAsBusy, showErrorAsModal);
+    }
     
-    protected virtual async Task PerformHandler(Func<Task> action, bool showAsBusy = true, bool showErrorAsModal = true)
+    protected virtual async Task PerformInContext(Func<Task> action, bool showAsBusy = true, bool showErrorAsModal = true)
     {
         try
         {

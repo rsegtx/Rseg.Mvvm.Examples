@@ -2,8 +2,9 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Rseg.Mvvm.Examples.CommandContext.ViewModels.Services;
 
-namespace Rseg.Mvvm.Examples.CommandContext;
+namespace Rseg.Mvvm.Examples.CommandContext.ViewModels;
 
 public enum ExceptionProcessing
 {
@@ -43,7 +44,7 @@ public partial class MainViewModel : BaseViewModel
         { "Item 3" }
     };
     
-    public MainViewModel()
+    public MainViewModel(IUiService uiService) : base(uiService)
     {
         Action2Command = SetupCommand(Action2, CanExecuteCommand);
         Action3Command = SetupCommand(Action3, CanExecuteCommand);
@@ -52,7 +53,7 @@ public partial class MainViewModel : BaseViewModel
         Task2Command = SetupCommand(Task2, CanExecuteCommand);
         Task3Command = SetupCommand(Task3, CanExecuteCommand);
         Task12Command = SetupCommand<string>(Task12, CanExecuteCommand1);
-        Task13Command = SetupCommand<string>(Task13, CanExecuteCommand1);
+        Task13Command = SetupCommand<string>(Task13, CanExecuteCommand1);        
     }
     
     private bool CanExecuteCommand()
@@ -74,7 +75,7 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand(CanExecute = nameof(CanExecuteCommand))]
     private async Task Action1()
     {
-        await PerformHandler(() =>
+        await PerformInContext(() =>
         {
             DoSomeActionLogic();
         });
@@ -117,7 +118,7 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand(CanExecute = nameof(CanExecuteCommand1))]
     private async Task Action11(string item)
     {
-        await PerformHandler(() =>
+        await PerformInContext(() =>
         {
             DoSomeActionLogicT(item);
         });
@@ -150,7 +151,7 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand(CanExecute = nameof(CanExecuteCommand))]
     private async Task Task1()
     {
-        await PerformHandler(async () =>
+        await PerformInContext(async () =>
         {
             await DoSomeTaskLogic();
         });
@@ -178,7 +179,7 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand(CanExecute = nameof(CanExecuteCommand1))]
     private async Task Task11(string item)
     {
-        await PerformHandler(async () =>
+        await PerformInContext(async () =>
         {
             await DoSomeTaskLogicT(item);
         });

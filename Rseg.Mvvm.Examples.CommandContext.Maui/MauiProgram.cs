@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
+using Rseg.Mvvm.Examples.CommandContext.Maui.Services;
+using Rseg.Mvvm.Examples.CommandContext.ViewModels;
+using Rseg.Mvvm.Examples.CommandContext.ViewModels.Services;
 
-namespace Rseg.Mvvm.Examples.CommandContext;
+namespace Rseg.Mvvm.Examples.CommandContext.Maui;
 
 public static class MauiProgram
 {
@@ -21,7 +24,8 @@ public static class MauiProgram
 
         // register top level pages/viewmodels so that Shell can create them using DI
         builder.Services.AddTransient<MainViewModel>();
-        builder.Services.AddTransient<MainPage>();        
+        builder.Services.AddTransient<MainPage>();
+        builder.Services.AddSingleton<IUiService>(new UiService());
         
         return builder.Build();
     }
