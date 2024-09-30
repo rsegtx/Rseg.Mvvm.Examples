@@ -23,7 +23,7 @@ public class BaseViewModel : ObservableObject
     /// <summary>
     /// Waypoint 9
     /// HandleException() provides a common way of handling exceptions. Its defined as virtual so that
-    /// specific ViewModels or projects might customize how exception handling is implemented.
+    /// specific ViewModels or projects might override and customize how exception handling is implemented.
     /// </summary>
     protected virtual async Task HandleException(Exception ex, bool showModalMessage=true)
     {
@@ -107,32 +107,33 @@ public class BaseViewModel : ObservableObject
     #region PerformActionInContext methods
     protected virtual async Task PerformInContext(Action action, bool showAsBusy = true, bool showErrorAsModal = true)
     {
-        var task = Task () =>
-        {
-            action?.Invoke();
-            return Task.CompletedTask;
-        };
-
-        await PerformInContext(task, showAsBusy, showErrorAsModal);
+        await PerformInContext(Task () =>
+            {
+                action?.Invoke();
+                return Task.CompletedTask;
+            }, showAsBusy, showErrorAsModal);
     }
     
     protected virtual async Task PerformInContext(Func<Task> action, bool showAsBusy = true, bool showErrorAsModal = true)
     {
+        if (IsBusy)
+            return;
+        
         try
         {
             if (showAsBusy)
                 IsBusy = true;
 
             await action.Invoke();
+            
+            if (showAsBusy)
+                IsBusy = false;
         }
         catch (Exception ex)
         {
-            await HandleException(ex, showErrorAsModal);
-        }
-        finally
-        {
             if (showAsBusy)
                 IsBusy = false;
+            await HandleException(ex, showErrorAsModal);
         }
     }
     #endregion
